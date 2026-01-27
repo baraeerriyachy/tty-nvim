@@ -10,7 +10,7 @@ M.ui = {
   tabufline = {
     show_numbers = false,
     enabled = true,
-    lazyload = true,
+    lazyload = false,
     order = { "treeOffset", "buffers", "tabs", "btns" },
     modules = {
       -- This removes the [x] buttons from the right side
