@@ -15,3 +15,15 @@ colorify.run = function()
     end,
   })
 end
+
+vim.api.nvim_create_autocmd("TermRequest", {
+  callback = function()
+    -- This hears the "OSC 7" message from Bash
+    if string.sub(vim.v.termrequest, 1, 4) == "\x1b]7;" then
+      local dir = string.gsub(vim.v.termrequest, "\x1b]7;file://[^/]*", "")
+      if vim.fn.isdirectory(dir) == 1 then
+        vim.api.nvim_set_current_dir(dir)
+      end
+    end
+  end,
+})
