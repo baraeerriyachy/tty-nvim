@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=TTY Vim
-Exec=foot --app-id="ttyvim" nvim +terminal +startinsert +"tnoremap <Esc> <C-\\><C-n>"
+Exec=foot --app-id="ttyvim" nvim +terminal +startinsert +"tnoremap <Esc><Esc> <C-\\><C-n>"
 Icon=nvim
 Type=Application
 Categories=Development;TextEditor;
