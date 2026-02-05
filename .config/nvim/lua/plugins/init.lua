@@ -1,13 +1,3 @@
-vim.api.nvim_create_autocmd("TermRequest", {
-  callback = function()
-    if string.sub(vim.v.termrequest, 1, 4) == "\x1b]7;" then
-      local dir = string.gsub(vim.v.termrequest, "\x1b]7;file://[^/]*", "")
-      if vim.fn.isdirectory(dir) == 1 then
-        vim.api.nvim_set_current_dir(dir)
-      end
-    end
-  end,
-})
 return {
   {
     "stevearc/conform.nvim",
@@ -37,6 +27,9 @@ return {
     event = "VeryLazy",  -- optional: lazy load
     config = function()
       require("code_runner").setup {
+        before_run_filetype = function()
+                vim.cmd("silent! w") -- Saves the file without showing the "written" message
+        end,
         filetype = {
           java = "cd $dir && javac $fileName && java $fileNameWithoutExt",
           python = "python3 -u",
@@ -57,5 +50,5 @@ return {
     init = function()
       vim.g.suda_smart_edit = 1
     end,
-  }
+  },
 }
