@@ -10,6 +10,7 @@ return {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"
+
     end,
   },
 
@@ -49,6 +50,19 @@ return {
     lazy = false,
     init = function()
       vim.g.suda_smart_edit = 1
+    end,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    ft = { "xml", "html", "javascriptreact", "typescriptreact" },
+    config = function()
+      require("nvim-ts-autotag").setup({
+        opts = {
+          enable_close = true,          -- Auto close tags
+          enable_rename = true,         -- Auto rename pair of tags
+          enable_close_on_slash = true, -- Auto close when writing </
+        },
+      })
     end,
   },
 }
