@@ -1,6 +1,5 @@
 # tty-nvim
 ## Autocompletion
-requirements:
 run in nvim
 ```
 :checkhealth nvim-treesitter
