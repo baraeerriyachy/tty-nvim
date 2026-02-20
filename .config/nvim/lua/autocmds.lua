@@ -26,4 +26,20 @@ vim.api.nvim_create_autocmd("TermRequest", {
       end
     end
   end,
+
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+autocmd("TermOpen", {
+  group = augroup("CodeRunnerNumbers", { clear = true }),
+  callback = function()
+    -- Force these settings on a delay to beat NvChad's defaults
+    vim.schedule(function()
+      vim.opt_local.number = true
+      vim.opt_local.relativenumber = false
+      vim.opt_local.signcolumn = "yes"
+      vim.opt_local.statuscolumn = "" -- NvChad sometimes uses this to hide numbers
+    end)
+  end,
+})
 })
