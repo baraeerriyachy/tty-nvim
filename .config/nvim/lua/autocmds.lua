@@ -42,4 +42,20 @@ autocmd("TermOpen", {
     end)
   end,
 })
+    
+})
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    -- Only change directory if it's a normal file and the directory exists
+    local path = vim.api.nvim_buf_get_name(0)
+    if path == "" or vim.bo.buftype ~= "" then
+      return
+    end
+
+    local dir = vim.fn.fnamemodify(path, ":p:h")
+    if vim.fn.isdirectory(dir) == 1 then
+      vim.api.nvim_set_current_dir(dir)
+    end
+  end,
 })
