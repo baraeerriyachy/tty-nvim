@@ -59,3 +59,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+autocmd("CmdlineLeave", {
+  group = vim.api.nvim_create_augroup("UniteQuitAndBD", { clear = true }),
+  pattern = ":",
+  callback = function()
+    local cmd = vim.fn.getcmdline()
+    if cmd == "q" then
+      vim.fn.setcmdline("bd")
+    elseif cmd == "q!" then
+      vim.fn.setcmdline("bd!")
+    end
+  end,
+})
