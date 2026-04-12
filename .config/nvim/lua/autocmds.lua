@@ -60,15 +60,28 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-autocmd("CmdlineLeave", {
-  group = vim.api.nvim_create_augroup("UniteQuitAndBD", { clear = true }),
+local smart_quit_group = vim.api.nvim_create_augroup("SmartQuitGroup", { clear = true })
+
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  group = smart_quit_group,
   pattern = ":",
   callback = function()
     local cmd = vim.fn.getcmdline()
-    if cmd == "q" then
-      vim.fn.setcmdline("bd")
-    elseif cmd == "q!" then
-      vim.fn.setcmdline("bd!")
+    local listed_bufs = vim.fn.getbufinfo({ buflisted = 1 })
+
+    -- Only intercept if we have more than one buffer open
+    if #listed_bufs > 1 then
+      if cmd == "q" then
+        vim.fn.setcmdline("bd")
+      elseif cmd == "q!" then
+        vim.fn.setcmdline("bd!")
+      elseif cmd == "wq" then
+        -- Save the file, then delete the buffer
+        vim.fn.setcmdline("w | bd")
+      elseif cmd == "wq!" then
+        -- Save (force), then delete the buffer
+        vim.fn.setcmdline("w! | bd")
+      end
     end
   end,
 })
