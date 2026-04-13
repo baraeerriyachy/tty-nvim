@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd("TermRequest", {
       end
     end
   end,
+})
 
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
@@ -42,8 +43,7 @@ autocmd("TermOpen", {
     end)
   end,
 })
-    
-})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   callback = function()
@@ -85,3 +85,23 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
     end
   end,
 })
+
+-- Force completion menu to show suggestions without typing (Insert Mode)
+vim.api.nvim_create_autocmd("CursorHoldI", {
+  callback = function()
+    local cmp = require("cmp")
+    if not cmp.visible() then
+      cmp.complete()
+    end
+  end,
+})
+
+-- Keep the hover for Normal Mode (The Diagnostic)
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
+  end,
+})
+
+-- Necessary for both triggers to be snappy (0.3s)
+vim.opt.updatetime = 300
