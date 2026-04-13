@@ -13,3 +13,11 @@ run in nvim
 ```
 :TSInstall xml
 ```
+### Autocompletion for python
+```
+:MasonInstall pyright
+```
+### Autocompletion for java
+```
+:MasonInstall jdtls
+```
