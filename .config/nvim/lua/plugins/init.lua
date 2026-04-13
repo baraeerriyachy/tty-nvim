@@ -5,12 +5,21 @@ return {
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
+    event = "User FilePost",
     config = function()
-      require "configs.lspconfig"
+      require("configs.lspconfig")
+      vim.lsp.enable({ "pyright", "jdtls" })
+    end,
+  },
 
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function()
+      local conf = require("nvchad.configs.cmp")
+      conf.completion = { autocomplete = false } -- Let our autocmd handle the "smart" trigger
+      return conf
     end,
   },
 
@@ -65,4 +74,5 @@ return {
       })
     end,
   },
+  
 }
