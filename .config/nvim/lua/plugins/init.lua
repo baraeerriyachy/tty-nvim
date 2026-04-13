@@ -18,7 +18,20 @@ return {
     "hrsh7th/nvim-cmp",
     opts = function()
       local conf = require("nvchad.configs.cmp")
-      conf.completion = { autocomplete = false } -- Let our autocmd handle the "smart" trigger
+      local cmp = require("cmp")
+
+      conf.completion = { 
+        autocomplete = false,
+        completeopt = "menu,menuone,noselect", -- CRITICAL: Don't auto-select the first word
+      }
+
+      conf.mapping = vim.tbl_deep_extend("force", conf.mapping, {
+        ["<CR>"] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = false, -- Only confirm if you actually highlighted a choice
+        },
+      })
+
       return conf
     end,
   },
