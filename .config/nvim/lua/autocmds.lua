@@ -86,22 +86,26 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
   end,
 })
 
--- Force completion menu to show suggestions without typing (Insert Mode)
+-- Smart completion: Only show if we are actually on a word
 vim.api.nvim_create_autocmd("CursorHoldI", {
   callback = function()
     local cmp = require("cmp")
-    if not cmp.visible() then
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local char_before = line:sub(col, col)
+
+    -- 1. Don't trigger if menu is already open
+    -- 2. Don't trigger on empty lines or after a space
+    if not cmp.visible() and col > 0 and char_before:match("%s") == nil then
       cmp.complete()
     end
   end,
 })
 
--- Keep the hover for Normal Mode (The Diagnostic)
+-- Keep your diagnostic hover for Normal Mode
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
   end,
 })
 
--- Necessary for both triggers to be snappy (0.3s)
-vim.opt.updatetime = 300
